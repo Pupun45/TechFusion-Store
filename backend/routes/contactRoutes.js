@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     await newContact.save();
     res.json(newContact);
   } catch (err) {
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 
@@ -37,7 +37,7 @@ router.get('/info', async (req, res) => {
     res.json(info);
   } catch (err) {
     console.error('Error fetching contact info:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 
@@ -58,7 +58,7 @@ router.put('/info', authMiddleware, async (req, res) => {
     res.json(info);
   } catch (err) {
     console.error('Error updating contact info:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 
@@ -70,7 +70,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     await contact.deleteOne();
     res.json({ message: 'Submission deleted' });
   } catch (err) {
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 

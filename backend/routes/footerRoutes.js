@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     res.json(settings);
   } catch (err) {
     console.error('Error fetching footer settings:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 

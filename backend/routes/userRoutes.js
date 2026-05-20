@@ -47,7 +47,7 @@ router.post('/signup', async (req, res) => {
     res.status(201).json({ token, user: { id: user._id, name: user.name, mobile: user.mobile, email: user.email } });
   } catch (err) {
     console.error('Signup error:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 
@@ -84,7 +84,7 @@ router.post('/login', async (req, res) => {
     res.json({ token, isAdmin: false, user: { id: user._id, name: user.name, mobile: user.mobile, email: user.email } });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 
@@ -95,7 +95,7 @@ router.get('/', authMiddleware, async (req, res) => {
     res.json(users);
   } catch (err) {
     console.error('Get users error:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 
@@ -133,7 +133,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
     res.json({ message: 'User updated successfully.', user });
   } catch (err) {
     console.error('Update user error:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 
@@ -149,7 +149,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     res.json({ message: 'User deleted successfully.' });
   } catch (err) {
     console.error('Delete user error:', err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 

@@ -8,6 +8,10 @@ const fs = require('fs');
 
 dotenv.config();
 
+// Fallbacks for hosting platforms like Render to prevent 500 errors out of the box
+process.env.MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://beheraj542_db_user:wy4yA51uIVRFop6G@cluster1.bcy9igb.mongodb.net/TechFusion?retryWrites=true&w=majority';
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'abebddec7b4fd5cad6bda4cc4e5b0c6aec592c79c9ad0b62a7880bf5386fb8c2b9e4b7493b18f27aed0643f3d2c74e56ad934d10c59f4d264f393472123eeb26';
+
 const adminRoutes = require('./routes/adminRoutes');
 const productRoutes = require('./routes/productRoutes');
 const contactRoutes = require('./routes/contactRoutes');
