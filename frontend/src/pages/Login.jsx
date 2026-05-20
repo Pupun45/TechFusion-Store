@@ -223,7 +223,7 @@ const Login = () => {
         navigate('/');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error:', error.response?.data || error);
       toast.error(error.response?.data?.message || 'Invalid email or password.', { id: toastId });
     } finally {
       setLoading(false);

@@ -17,8 +17,8 @@ export const ProductProvider = ({ children }) => {
       setProducts(response.data);
       setError(null);
     } catch (err) {
-      console.error('Failed to fetch products:', err);
-      setError(err.response?.data?.error || 'Failed to load products from server.');
+      console.error('Failed to fetch products:', err.response?.data || err);
+      setError(err.response?.data?.error || err.response?.data?.message || 'Failed to load products from server.');
     } finally {
       setLoading(false);
     }

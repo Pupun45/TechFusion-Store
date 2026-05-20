@@ -559,7 +559,7 @@ const ContactPage = () => {
         const res = await axios.get(`${apiUrl}/api/contact/info`);
         setContactInfo(res.data);
       } catch (err) {
-        console.error('Failed to fetch contact details:', err);
+        console.error('Failed to fetch contact details:', err.response?.data || err);
       }
     };
     fetchContactInfo();
@@ -722,7 +722,7 @@ const Footer = () => {
           setContactInfo(res.data);
         }
       } catch (err) {
-        console.error('Failed to fetch contact details for footer:', err);
+        console.error('Failed to fetch contact details for footer:', err.response?.data || err);
       }
     };
     const fetchFooterSettings = async () => {
@@ -737,7 +737,7 @@ const Footer = () => {
           });
         }
       } catch (err) {
-        console.error('Failed to fetch footer settings:', err);
+        console.error('Failed to fetch footer settings:', err.response?.data || err);
       }
     };
     fetchContactInfo();
