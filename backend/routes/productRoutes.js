@@ -6,6 +6,9 @@ const Product = require('../models/Product');
 const authMiddleware = require('../middleware/authMiddleware');
 const fs = require('fs');
 
+// Use BACKEND_URL env var in production to build correct absolute URLs for uploaded files
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
+
 const deleteFileFromDisk = (url) => {
   if (!url || typeof url !== 'string') return;
   try {
@@ -56,10 +59,10 @@ router.post('/', authMiddleware, upload.fields([{ name: 'image', maxCount: 10 },
   let videoUrls = [];
 
   if (req.files && req.files.image) {
-    imageUrls = req.files.image.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+    imageUrls = req.files.image.map(file => `${BACKEND_URL}/uploads/${file.filename}`);
   }
   if (req.files && req.files.video) {
-    videoUrls = req.files.video.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+    videoUrls = req.files.video.map(file => `${BACKEND_URL}/uploads/${file.filename}`);
   }
 
   try {
@@ -106,11 +109,11 @@ router.put('/:id', authMiddleware, upload.fields([{ name: 'image', maxCount: 10 
     });
 
     if (req.files && req.files.image) {
-      const newImages = req.files.image.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+      const newImages = req.files.image.map(file => `${BACKEND_URL}/uploads/${file.filename}`);
       currentImages = [...currentImages, ...newImages].slice(0, 10);
     }
     if (req.files && req.files.video) {
-      const newVideos = req.files.video.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+      const newVideos = req.files.video.map(file => `${BACKEND_URL}/uploads/${file.filename}`);
       currentVideos = [...currentVideos, ...newVideos].slice(0, 2);
     }
 

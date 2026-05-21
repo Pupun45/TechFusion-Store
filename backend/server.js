@@ -25,8 +25,12 @@ const Category = require('./models/Category');
 
 const app = express();
 
+// Trust reverse proxy (Hostinger) so req.protocol returns 'https'
+app.set('trust proxy', 1);
+
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const uploadDir = path.join(__dirname, 'uploads');
@@ -99,12 +103,12 @@ mongoose.connect(process.env.MONGO_URI, {
     console.error('   Go to https://cloud.mongodb.com/ -> Security -> Network Access -> Add IP Address.');
     console.error('   Either click "Add Current IP Address" or add "0.0.0.0/0" to allow access from anywhere (for development).');
     console.error('2. LOCAL MONGODB: Alternatively, you can use local MongoDB. Install MongoDB Community Server, ensure it is running,');
-    console.error('   and update MONGO_URI in your `backend/.env` file to:');
-    console.error('   MONGO_URI=mongodb://127.0.0.1:27017/TechFusion');
     console.error('=========================================\n');
   }
 });
-
+app.get("/", (req, res) => {
+  res.send("TechFusion API Running Successfully");
+});
 app.use('/api/admin', adminRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/contact', contactRoutes);
@@ -115,5 +119,5 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/footer', footerRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

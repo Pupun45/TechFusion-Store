@@ -6,6 +6,9 @@ const Gallery = require('../models/Gallery');
 const authMiddleware = require('../middleware/authMiddleware');
 const fs = require('fs');
 
+// Use BACKEND_URL env var in production to build correct absolute URLs for uploaded files
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
+
 const deleteFileFromDisk = (url) => {
   if (!url || typeof url !== 'string') return;
   try {
@@ -66,10 +69,10 @@ router.post('/', authMiddleware, upload.fields([{ name: 'image', maxCount: 1 }, 
   let videoUrl = '';
 
   if (req.files.image) {
-    imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.image[0].filename}`;
+    imageUrl = `${BACKEND_URL}/uploads/${req.files.image[0].filename}`;
   }
   if (req.files.video) {
-    videoUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.video[0].filename}`;
+    videoUrl = `${BACKEND_URL}/uploads/${req.files.video[0].filename}`;
   }
 
   try {
